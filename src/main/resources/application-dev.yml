@@ -1,0 +1,14 @@
+#配置数据源
+spring:
+    profiles:
+        active: dev
+    datasource:
+        url: jdbc:mysql://rm-2ze451vtmrd6llmlyvo.mysql.rds.aliyuncs.com:3306/store?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+        name:
+        username: root
+        password: Mimamima920612
+        driver-class-name: com.mysql.jdbc.Driver
+# 配置日志
+
+logging:
+    file: E://LocalSpeace/sotre/log/store.log

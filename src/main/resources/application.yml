@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: store
+  profiles:
+    active: @profileActive@
+#mybatis配置
+mybatis:
+  mapperLocations: classpath:sqlMapper/**/**.xml
+
+page:
+  count: 10
+
+logging:
+  level:
+     com.stroe.dao: debug
+
+
