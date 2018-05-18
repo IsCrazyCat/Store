@@ -15,5 +15,7 @@ page:
 logging:
   level:
      com.stroe.dao: debug
+debug: true
+
 
 

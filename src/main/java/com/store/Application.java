@@ -2,6 +2,7 @@ package com.store;
 
 import com.store.config.DefaultProfileUtil;
 import com.store.config.ProjectProperties;
+import com.store.filter.AllowOriginFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -24,7 +28,7 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableConfigurationProperties(ProjectProperties.class)
 @MapperScan("com.store.dao")
-@EnableAutoConfiguration
+@ServletComponentScan
 public class Application  extends SpringBootServletInitializer {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);

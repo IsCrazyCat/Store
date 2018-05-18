@@ -36,4 +36,16 @@ public class StoreInfoController {
         System.out.println("page = "+pageable.getPageNumber());
         return storeInfoService.findStoreInfo(storeInfo,pageable);
     }
+    @RequestMapping(value = "/updateStoreInfo",
+            method = {RequestMethod.POST},
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean updateStoreInfo(@RequestBody StoreInfo storeInfo){
+        return storeInfoService.updateStoreInfo(storeInfo);
+    }
+    @RequestMapping(value = "/addStoreInfo",
+            method = {RequestMethod.POST},
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean addStoreInfo(@RequestBody StoreInfo storeInfo){
+        return storeInfoService.addStoreInfo(storeInfo);
+    }
 }

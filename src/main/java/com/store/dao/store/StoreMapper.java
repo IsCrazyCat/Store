@@ -19,5 +19,24 @@ public interface StoreMapper {
      * @return storeInfo集合
      */
     List<StoreInfo> findStoreInfo(@Param("storeInfo") StoreInfo storeInfo, @Param("page") Pageable pageable);
+    /**
+     * 获取商店信息數量
+     * @param storeInfo 筛选条件
+     * @return storeInfo集合
+     */
+   int findStoreInfoCount(@Param("storeInfo") StoreInfo storeInfo);
+
+    /**
+     * 更新商店信息
+     * @param storeInfo 筛选条件
+     * @return storeInfo集合
+     */
+    int updateStoreInfo(@Param("storeInfo") StoreInfo storeInfo);
+    /**
+     * 添加商店信息
+     * @param storeInfo 筛选条件
+     * @return storeInfo集合
+     */
+    int addStoreInfo(@Param("storeInfo") StoreInfo storeInfo);
 
 }

@@ -29,7 +29,6 @@ public class DictController {
 
     @RequestMapping(value = "/findDict",method = {RequestMethod.POST})
     public List<Dict> findDict(@RequestBody Dict dict){
-        System.out.println(dict);
         return dictService.findDict(dict);
     }
 }

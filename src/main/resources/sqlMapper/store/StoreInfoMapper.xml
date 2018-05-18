@@ -14,7 +14,7 @@
         <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="tags" property="tags" jdbcType="VARCHAR"/>
         <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
-        <result column="is_online" property="is_online" jdbcType="VARCHAR"/>
+        <result column="is_online" property="isOnline" jdbcType="VARCHAR"/>
         <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
         <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
         <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy" />
@@ -23,9 +23,46 @@
     </resultMap>
     <sql id="Base_Column_List">
         `id`,`type`, `mobile`, `name`, `address`, `location_x`, `location_y`,
-        `logo_url`, `logo_detail_url`, `description`, `tags`, `order_id`,
+        `logo_url`, `logo_detail_url`, `description`, `tags`, `order_id`,`is_online`,
         `created_date`,`last_modified_date`, `created_by`, `last_modified_by`, `flag`
     </sql>
+    <select id="findStoreInfoCount" resultType="java.lang.Integer" parameterType="com.store.domain.StoreInfo">
+        SELECT
+          COUNT(*)
+        FROM
+        store_info
+        WHERE flag=1
+        <if test="storeInfo.type != null">
+            AND `type` = #{storeInfo.type}
+        </if>
+        <if test="storeInfo.mobile != null">
+            AND `mobile` = #{storeInfo.mobile}
+        </if>
+        <if test="storeInfo.name != null">
+            AND `name` = #{storeInfo.name}
+        </if>
+        <if test="storeInfo.address != null">
+            AND `address` = #{storeInfo.address}
+        </if>
+        <if test="storeInfo.locationX != null">
+            AND `location_x` = #{storeInfo.locationX}
+        </if>
+        <if test="storeInfo.locationY != null">
+            AND `location_y` = #{storeInfo.locationY}
+        </if>
+        <if test="storeInfo.isOnline != null">
+            AND `is_online` = #{storeInfo.isOnline}
+        </if>
+        <if test="storeInfo.description != null">
+            AND `description` like  concat('%', #{storeInfo.description}, '%')
+        </if>
+        <if test="storeInfo.tags != null">
+            AND `tags` like concat('%', #{storeInfo.tags}, '%')
+        </if>
+        <if test="storeInfo.orderId != null">
+            AND `order_id` = #{storeInfo.orderId}
+        </if>
+    </select>
 
     <select id="findStoreInfo" resultMap="baseResultMap" parameterType="com.store.domain.StoreInfo">
         SELECT
@@ -40,7 +77,7 @@
                 AND `mobile` = #{storeInfo.mobile}
             </if>
             <if test="storeInfo.name != null">
-                AND `name` = #{storeInfo.name}
+                AND `name` like concat('%',#{storeInfo.name},'%')
             </if>
             <if test="storeInfo.address != null">
                 AND `address` = #{storeInfo.address}
@@ -51,15 +88,146 @@
             <if test="storeInfo.locationY != null">
                 AND `location_y` = #{storeInfo.locationY}
             </if>
+            <if test="storeInfo.isOnline != null">
+                <if test="storeInfo.isOnline == 'All'">
+
+                </if>
+                <if test="storeInfo.isOnline != 'All'">
+                    AND `is_online` = #{storeInfo.isOnline}
+                </if>
+            </if>
+            <if test="storeInfo.isOnline == null || storeInfo.isOnline == ''">
+                AND `is_online` = 1
+            </if>
             <if test="storeInfo.description != null">
-                AND `description` like '%'+ #{storeInfo.description} + '%';
+                AND `description` like  concat('%', #{storeInfo.description}, '%')
             </if>
             <if test="storeInfo.tags != null">
-                AND `tags` ` like '%'+ #{storeInfo.tags} + '%';
+                AND `tags` like concat('%', #{storeInfo.tags}, '%')
             </if>
             <if test="storeInfo.orderId != null">
                 AND `order_id` = #{storeInfo.orderId}
             </if>
+            Order By order_id
             limit #{page.offset},#{page.pageSize}
     </select>
+    <update id="updateStoreInfo" parameterType="com.store.domain.StoreInfo">
+        update store_info
+        <set>
+            <if test="storeInfo.type != null">
+                `type` = #{storeInfo.type},
+            </if>
+            <if test="storeInfo.mobile != null">
+                `mobile` = #{storeInfo.mobile},
+            </if>
+            <if test="storeInfo.name != null">
+               `name` = #{storeInfo.name},
+            </if>
+            <if test="storeInfo.address != null">
+               `address` = #{storeInfo.address},
+            </if>
+            <if test="storeInfo.locationX != null">
+                 `location_x` = #{storeInfo.locationX},
+            </if>
+            <if test="storeInfo.locationY != null">
+               `location_y` = #{storeInfo.locationY},
+            </if>
+            <if test="storeInfo.isOnline != null">
+               `is_online` = #{storeInfo.isOnline},
+            </if>
+            <if test="storeInfo.description != null">
+                `description`= #{storeInfo.description} ,
+            </if>
+            <if test="storeInfo.tags != null">
+                `tags`  = #{storeInfo.tags} ,
+            </if>
+            <if test="storeInfo.logoUrl != null">
+                `logo_url`  = #{storeInfo.logoUrl} ,
+            </if>
+            <if test="storeInfo.logoDetailUrl != null">
+                `logo_detail_url`  = #{storeInfo.logoDetailUrl} ,
+            </if>
+        </set>
+        where id = #{storeInfo.id}
+    </update>
+    <insert id="addStoreInfo" parameterType="com.store.domain.StoreInfo">
+        insert into store_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="storeInfo.type != null">
+                `type`,
+            </if>
+            <if test="storeInfo.mobile != null">
+                `mobile`,
+            </if>
+            <if test="storeInfo.name != null">
+                `name`,
+            </if>
+            <if test="storeInfo.address != null">
+                `address`,
+            </if>
+            <if test="storeInfo.locationX != null">
+                `location_x`,
+            </if>
+            <if test="storeInfo.locationY != null">
+                `location_y`,
+            </if>
+            <if test="storeInfo.isOnline != null">
+                `is_online`,
+            </if>
+            <if test="storeInfo.description != null">
+                `description`,
+            </if>
+            <if test="storeInfo.tags != null">
+                `tags`,
+            </if>
+            <if test="storeInfo.logoUrl != null">
+                `logo_url` ,
+            </if>
+            <if test="storeInfo.logoDetailUrl != null">
+                `logo_detail_url` ,
+            </if>
+            <if test="true">
+                `order_id` ,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="storeInfo.type != null">
+                #{storeInfo.type},
+            </if>
+            <if test="storeInfo.mobile != null">
+                #{storeInfo.mobile},
+            </if>
+            <if test="storeInfo.name != null">
+                #{storeInfo.name},
+            </if>
+            <if test="storeInfo.address != null">
+                 #{storeInfo.address},
+            </if>
+            <if test="storeInfo.locationX != null">
+                #{storeInfo.locationX},
+            </if>
+            <if test="storeInfo.locationY != null">
+                #{storeInfo.locationY},
+            </if>
+            <if test="storeInfo.isOnline != null">
+                #{storeInfo.isOnline},
+            </if>
+            <if test="storeInfo.description != null">
+                #{storeInfo.description} ,
+            </if>
+            <if test="storeInfo.tags != null">
+                #{storeInfo.tags} ,
+            </if>
+            <if test="storeInfo.logoUrl != null">
+                #{storeInfo.logoUrl} ,
+            </if>
+            <if test="storeInfo.logoDetailUrl != null">
+                #{storeInfo.logoDetailUrl} ,
+            </if>
+            <if test="true">
+                (select MAX(order_id)+1 from store_info) ,
+            </if>
+
+        </trim>
+    </insert>
 </mapper>
