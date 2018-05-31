@@ -20,4 +20,12 @@ public interface DictMapper {
      */
     List<Dict> findDict(Dict dict);
 
+    /**
+     * 更新数据字典信息
+     * @param dict 筛选条件
+     * @return Dict
+     */
+    int updateDictInfo(Dict dict);
+
+
 }

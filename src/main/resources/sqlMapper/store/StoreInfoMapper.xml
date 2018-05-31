@@ -32,6 +32,9 @@
         FROM
         store_info
         WHERE flag=1
+        <if test="storeInfo.id != null and storeInfo.id != 0">
+            AND `id` = #{storeInfo.id}
+        </if>
         <if test="storeInfo.type != null">
             AND `type` = #{storeInfo.type}
         </if>
@@ -64,12 +67,15 @@
         </if>
     </select>
 
-    <select id="findStoreInfo" resultMap="baseResultMap" parameterType="com.store.domain.StoreInfo">
+    <select id="findStoreInfoPage" resultMap="baseResultMap" parameterType="com.store.domain.StoreInfo">
         SELECT
             <include refid="Base_Column_List"/>
         FROM
             store_info
         WHERE flag=1
+            <if test="storeInfo.id != null and storeInfo.id != 0">
+                AND `id` = #{storeInfo.id}
+            </if>
             <if test="storeInfo.type != null">
                 AND `type` = #{storeInfo.type}
             </if>
@@ -110,6 +116,56 @@
             </if>
             Order By order_id
             limit #{page.offset},#{page.pageSize}
+    </select>
+    <select id="findOne" resultMap="baseResultMap" parameterType="com.store.domain.StoreInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        store_info
+        WHERE flag=1
+        <if test="storeInfo.id != null and storeInfo.id != 0">
+            AND `id` = #{storeInfo.id}
+        </if>
+        <if test="storeInfo.type != null">
+            AND `type` = #{storeInfo.type}
+        </if>
+        <if test="storeInfo.mobile != null">
+            AND `mobile` = #{storeInfo.mobile}
+        </if>
+        <if test="storeInfo.name != null">
+            AND `name` like concat('%',#{storeInfo.name},'%')
+        </if>
+        <if test="storeInfo.address != null">
+            AND `address` = #{storeInfo.address}
+        </if>
+        <if test="storeInfo.locationX != null">
+            AND `location_x` = #{storeInfo.locationX}
+        </if>
+        <if test="storeInfo.locationY != null">
+            AND `location_y` = #{storeInfo.locationY}
+        </if>
+        <if test="storeInfo.isOnline != null">
+            <if test="storeInfo.isOnline == 'All'">
+
+            </if>
+            <if test="storeInfo.isOnline != 'All'">
+                AND `is_online` = #{storeInfo.isOnline}
+            </if>
+        </if>
+        <if test="storeInfo.isOnline == null || storeInfo.isOnline == ''">
+            AND `is_online` = 1
+        </if>
+        <if test="storeInfo.description != null">
+            AND `description` like  concat('%', #{storeInfo.description}, '%')
+        </if>
+        <if test="storeInfo.tags != null">
+            AND `tags` like concat('%', #{storeInfo.tags}, '%')
+        </if>
+        <if test="storeInfo.orderId != null">
+            AND `order_id` = #{storeInfo.orderId}
+        </if>
+        Order By order_id
+        limit 1
     </select>
     <update id="updateStoreInfo" parameterType="com.store.domain.StoreInfo">
         update store_info
@@ -186,7 +242,7 @@
             <if test="storeInfo.logoDetailUrl != null">
                 `logo_detail_url` ,
             </if>
-            <if test="true">
+            <if test="storeInfo.orderId != null">
                 `order_id` ,
             </if>
         </trim>
@@ -224,8 +280,8 @@
             <if test="storeInfo.logoDetailUrl != null">
                 #{storeInfo.logoDetailUrl} ,
             </if>
-            <if test="true">
-                (select MAX(order_id)+1 from store_info) ,
+            <if test="storeInfo.orderId != null">
+                #{storeInfo.orderId} ,
             </if>
 
         </trim>

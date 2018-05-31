@@ -6,10 +6,7 @@ import com.store.domain.StoreInfo;
 import com.store.service.StoreInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -28,11 +25,15 @@ public class StoreInfoServiceImpl implements StoreInfoService{
     @Inject
     private StoreMapper storeMapper;
 
-    public Page<StoreInfo> findStoreInfo(StoreInfo storeInfo, Pageable pageable){
+    public Page<StoreInfo> findStoreInfoPage(StoreInfo storeInfo, Pageable pageable){
         System.out.println(JSON.toJSONString(pageable.getSort()));
-        List<StoreInfo> list = storeMapper.findStoreInfo(storeInfo,pageable);
+        List<StoreInfo> list = storeMapper.findStoreInfoPage(storeInfo,pageable);
 
         return new PageImpl<StoreInfo>(list,pageable,storeMapper.findStoreInfoCount(storeInfo));
+    }
+    public StoreInfo findStoreInfo(StoreInfo storeInfo){
+        StoreInfo resultstoreInfo = storeMapper.findOne(storeInfo);
+        return resultstoreInfo;
     }
 
     @Override
@@ -45,6 +46,11 @@ public class StoreInfoServiceImpl implements StoreInfoService{
 
     @Override
     public boolean addStoreInfo(StoreInfo storeInfo) {
+        //获取orderId
+        StoreInfo storeInfoParam = new StoreInfo();
+        storeInfoParam.setType(storeInfo.getType());
+        StoreInfo storeInfo_orderId= storeMapper.findOne(storeInfoParam);
+        storeInfo.setOrderId(Integer.valueOf(storeInfo_orderId.getOrderId())+1+"");
         if(storeMapper.addStoreInfo(storeInfo)>=1){
             return true;
         }

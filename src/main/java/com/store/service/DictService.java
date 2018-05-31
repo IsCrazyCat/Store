@@ -12,4 +12,6 @@ import java.util.List;
 public interface DictService {
 
     List<Dict> findDict(Dict dict);
+
+    int updateDictInfo(Dict dict);
 }

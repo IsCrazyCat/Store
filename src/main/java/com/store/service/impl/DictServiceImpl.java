@@ -27,4 +27,9 @@ public class DictServiceImpl implements DictService{
     public List<Dict> findDict(Dict dict){
         return dictMapper.findDict(dict);
     }
+    @Override
+    public int updateDictInfo(Dict dict){
+        return dictMapper.updateDictInfo(dict);
+    }
+
 }

@@ -41,7 +41,7 @@ public class storeInfoServiceTest {
         System.out.println(pageable.getOffset());
         System.out.println(pageable.getPageNumber());
         System.out.println(pageable.getPageSize());
-        Page<StoreInfo> pages = storeInfoService.findStoreInfo(storeInfo,pageable);
+        Page<StoreInfo> pages = storeInfoService.findStoreInfoPage(storeInfo,pageable);
 
         for (StoreInfo storeInfo1:pages) {
             System.out.println(JSON.toJSONString(storeInfo1));

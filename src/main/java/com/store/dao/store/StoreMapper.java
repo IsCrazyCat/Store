@@ -14,11 +14,17 @@ import java.util.List;
  */
 public interface StoreMapper {
     /**
+     * 获取商店信息 分页
+     * @param storeInfo 筛选条件
+     * @return storeInfo集合
+     */
+    List<StoreInfo> findStoreInfoPage(@Param("storeInfo") StoreInfo storeInfo, @Param("page") Pageable pageable);
+    /**
      * 获取商店信息
      * @param storeInfo 筛选条件
      * @return storeInfo集合
      */
-    List<StoreInfo> findStoreInfo(@Param("storeInfo") StoreInfo storeInfo, @Param("page") Pageable pageable);
+    StoreInfo findOne(@Param("storeInfo") StoreInfo storeInfo);
     /**
      * 获取商店信息數量
      * @param storeInfo 筛选条件

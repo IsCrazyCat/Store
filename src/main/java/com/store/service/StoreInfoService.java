@@ -11,7 +11,9 @@ import org.springframework.data.domain.Pageable;
  */
 public interface StoreInfoService {
 
-    Page<StoreInfo> findStoreInfo(StoreInfo storeInfo, Pageable pageable);
+    Page<StoreInfo> findStoreInfoPage(StoreInfo storeInfo, Pageable pageable);
+
+    StoreInfo findStoreInfo(StoreInfo storeInfo);
 
     boolean updateStoreInfo(StoreInfo storeInfo);
 

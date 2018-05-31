@@ -45,7 +45,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "/findStoreInfo",method = {RequestMethod.GET,RequestMethod.POST})
-    public Page<StoreInfo> findStoreInfo(StoreInfo storeInfo, Pageable pageable){
-        return storeInfoService.findStoreInfo(storeInfo,pageable);
+    public StoreInfo findStoreInfo(StoreInfo storeInfo, Pageable pageable){
+        return storeInfoService.findStoreInfo(storeInfo);
     }
 }

@@ -30,6 +30,9 @@
         FROM
             dict
         WHERE flag=1
+        <if test="id != null and id != 0">
+                AND `id` = #{id}
+            </if>
             <if test="categoryCode!= null">
                 AND `category_code` = #{categoryCode}
             </if>
@@ -51,5 +54,37 @@
             <if test="sort!= null">
                 AND `sort` = #{sort}
             </if>
+            ORDER BY sort
     </select>
+    <update id="updateDictInfo" parameterType="com.store.domain.Dict">
+        update dict
+        <set>
+            <if test="categoryCode!= null">
+                 `category_code` = #{categoryCode},
+            </if>
+            <!--<if test="code!= null">-->
+                <!--`code` = #{code},-->
+            <!--</if>-->
+            <if test="name!= null">
+                `name` = #{name},
+            </if>
+            <if test="shortName!= null">
+                `short_name` = #{shortName},
+            </if>
+            <if test="imageUrl!= null">
+                `image_url` = #{imageUrl},
+            </if>
+            <if test="parentId!= null">
+                `parent_id` = #{parentId},
+            </if>
+            <if test="levelType!= null">
+                `level_type` = #{levelType},
+            </if>
+            <if test="sort!= null">
+                `sort` = #{sort}
+            </if>
+        </set>
+        where `id` = #{id}
+
+    </update>
 </mapper>

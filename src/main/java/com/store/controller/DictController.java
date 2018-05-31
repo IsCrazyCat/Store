@@ -1,5 +1,6 @@
 package com.store.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.store.domain.Dict;
 import com.store.service.DictService;
 import org.slf4j.Logger;
@@ -29,6 +30,14 @@ public class DictController {
 
     @RequestMapping(value = "/findDict",method = {RequestMethod.POST})
     public List<Dict> findDict(@RequestBody Dict dict){
-        return dictService.findDict(dict);
+        List<Dict> dictList = dictService.findDict(dict);
+        return dictList;
+    }
+    @RequestMapping(value = "/updateDictInfo",method = {RequestMethod.POST})
+    public int updateDictInfo(@RequestBody Dict dict){
+        log.info("dict = "+ JSON.toJSONString(dict));
+        int count = dictService.updateDictInfo(dict);
+        log.info("dict = "+count);
+        return count;
     }
 }
